@@ -34,6 +34,35 @@ eachline(doSomethingWithLines);
 
 `eachline([instream], [lineFunction], doneFunction)`
 
+## Why this library?
+
+```bash
+# I couldn't get readline to give me the last line of a stream if there
+# was no trailing newline.
+$ echo -en 'foo\nbar\nbaz\n' | node examples/readline-broken.js
+[ '[0] <foo>', '[1] <bar>', '[2] <baz>' ]
+
+$ echo -en 'foo\nbar\nbaz' | node examples/readline-broken.js
+[ '[0] <foo>', '[1] <bar>' ]
+
+
+# This is the behavior I expected, based on my experience with ruby's
+# STDIN.each_with_index method.
+$ echo -en 'foo\nbar\nbaz\n' | ruby examples/each-with-index.rb
+["[0] <foo>", "[1] <bar>", "[2] <baz>"]
+
+$ echo -en 'foo\nbar\nbaz' | ruby examples/each-with-index.rb
+["[0] <foo>", "[1] <bar>", "[2] <baz>"]
+
+
+# This lib behaves more like ruby's STDIN.each_with_index method.
+$ echo -en 'foo\nbar\nbaz\n' | node examples/eachline-yay.js
+[ '[0] <foo>', '[1] <bar>', '[2] <baz>' ]
+
+$ echo -en 'foo\nbar\nbaz' | node examples/eachline-yay.js
+[ '[0] <foo>', '[1] <bar>', '[2] <baz>' ]
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
